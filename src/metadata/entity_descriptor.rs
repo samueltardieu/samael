@@ -55,7 +55,7 @@ impl FromStr for EntityDescriptor {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(quick_xml::de::from_str(&s)?)
+        Ok(quick_xml::de::from_str(s)?)
     }
 }
 
@@ -130,7 +130,9 @@ mod test {
         let output_xml = entity_descriptor
             .to_xml()
             .expect("Failed to convert EntityDescriptor to xml");
-        let reparsed_entity_descriptor: EntityDescriptor =output_xml.parse().expect("Failed to parse EntityDescriptor");
+        let reparsed_entity_descriptor: EntityDescriptor = output_xml
+            .parse()
+            .expect("Failed to parse EntityDescriptor");
 
         assert_eq!(reparsed_entity_descriptor, entity_descriptor);
     }
@@ -147,7 +149,9 @@ mod test {
         let output_xml = entity_descriptor
             .to_xml()
             .expect("Failed to convert EntityDescriptor to xml");
-        let reparsed_entity_descriptor: EntityDescriptor =output_xml.parse().expect("Failed to parse EntityDescriptor");
+        let reparsed_entity_descriptor: EntityDescriptor = output_xml
+            .parse()
+            .expect("Failed to parse EntityDescriptor");
 
         assert_eq!(reparsed_entity_descriptor, entity_descriptor);
     }

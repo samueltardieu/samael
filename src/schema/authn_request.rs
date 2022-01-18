@@ -91,7 +91,7 @@ impl FromStr for AuthnRequest {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(quick_xml::de::from_str(&s)?)
+        Ok(quick_xml::de::from_str(s)?)
     }
 }
 
@@ -199,20 +199,17 @@ impl AuthnRequest {
     }
 
     #[cfg(feature = "xmlsec")]
-    pub fn to_signed_xml(&self,
+    pub fn to_signed_xml(
+        &self,
         private_key_der: &[u8],
     ) -> Result<String, Box<dyn std::error::Error>> {
         crypto::sign_xml(self.to_xml()?, private_key_der)
-            .map_err(|crypto_error|
-                Box::new(crypto_error) as Box<dyn std::error::Error>
-            )
+            .map_err(|crypto_error| Box::new(crypto_error) as Box<dyn std::error::Error>)
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::*;
-
     #[test]
     #[cfg(feature = "xmlsec")]
     pub fn test_signed_authn() -> Result<(), Box<dyn std::error::Error>> {
@@ -226,27 +223,23 @@ mod test {
             "/test_vectors/public.der"
         ));
 
-
         let authn_request_sign_template = include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
             "/test_vectors/authn_request_sign_template.xml"
         ));
 
-        let signed_authn_request =
-            authn_request_sign_template
-                .parse::<AuthnRequest>()?
-                .add_key_info(public_cert)
-                .to_signed_xml(private_key)?;
+        let signed_authn_request = authn_request_sign_template
+            .parse::<super::AuthnRequest>()?
+            .add_key_info(public_cert)
+            .to_signed_xml(private_key)?;
 
-        assert!(
-            crate::crypto::verify_signed_xml(
-                &signed_authn_request,
-                &public_cert[..],
-                Some("ID"),
-            ).is_ok()
-        );
+        assert!(crate::crypto::verify_signed_xml(
+            &signed_authn_request,
+            &public_cert[..],
+            Some("ID"),
+        )
+        .is_ok());
 
         Ok(())
     }
 }
-
