@@ -5,20 +5,18 @@ pub mod response_builder;
 pub mod sp_extractor;
 pub mod verified_request;
 
-#[cfg(test)]
-mod tests;
-
+#[cfg(feature = "xmlsec")]
+use crate::crypto;
+#[cfg(feature = "xmlsec")]
+use crate::idp::response_builder::{build_response_template, ResponseAttribute};
+#[cfg(feature = "xmlsec")]
+use crate::schema::Response;
 use openssl::bn::{BigNum, MsbOption};
 use openssl::nid::Nid;
 use openssl::pkey::Private;
 use openssl::{asn1::Asn1Time, pkey, rsa::Rsa, x509};
+#[cfg(feature = "xmlsec")]
 use std::str::FromStr;
-
-use crate::crypto::{self};
-use crate::ToXml;
-
-use crate::idp::response_builder::{build_response_template, ResponseAttribute};
-use crate::schema::Response;
 
 pub struct IdentityProvider {
     private_key: pkey::PKey<Private>,
@@ -102,6 +100,7 @@ impl IdentityProvider {
     }
 
     #[allow(clippy::too_many_arguments)]
+    #[cfg(feature = "xmlsec")]
     pub fn sign_authn_response(
         &self,
         idp_x509_cert_der: &[u8],
@@ -122,7 +121,7 @@ impl IdentityProvider {
             attributes,
         );
 
-        let response_xml_unsigned = response.as_xml()?;
+        let response_xml_unsigned = yaserde::ser::to_string(&response)?;
         let signed_xml = crypto::sign_xml(
             response_xml_unsigned.as_str(),
             self.export_private_key_der()?.as_slice(),

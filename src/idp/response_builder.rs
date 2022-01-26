@@ -1,11 +1,11 @@
 use crate::attribute::{Attribute, AttributeValue};
 use crate::schema::{
     Assertion, AttributeStatement, AudienceRestriction, AuthnContext, AuthnContextClassRef,
-    AuthnStatement, Conditions, Issuer, Response, Status, StatusCode, Subject, SubjectConfirmation,
-    SubjectConfirmationData, SubjectNameID,
+    AuthnStatement, Conditions, Issuer, NameId, Response, Status, StatusCode, Subject,
+    SubjectConfirmation, SubjectConfirmationData,
 };
 use crate::signature::Signature;
-use chrono::Utc;
+use crate::utils::UtcDateTime;
 
 use super::sp_extractor::RequiredAttribute;
 use crate::crypto;
@@ -14,9 +14,9 @@ fn build_conditions(audience: &str) -> Conditions {
     Conditions {
         not_before: None,
         not_on_or_after: None,
-        audience_restrictions: Some(vec![AudienceRestriction {
+        audience_restrictions: vec![AudienceRestriction {
             audience: vec![audience.to_string()],
-        }]),
+        }],
         one_time_use: None,
         proxy_restriction: None,
     }
@@ -24,7 +24,7 @@ fn build_conditions(audience: &str) -> Conditions {
 
 fn build_authn_statement(class: &str) -> AuthnStatement {
     AuthnStatement {
-        authn_instant: Some(Utc::now()),
+        authn_instant: Some(UtcDateTime::now()),
         session_index: None,
         session_not_on_or_after: None,
         subject_locality: None,
@@ -68,16 +68,17 @@ fn build_assertion(
 
     Assertion {
         id: assertion_id,
-        issue_instant: Utc::now(),
+        issue_instant: UtcDateTime::now(),
         version: "2.0".to_string(),
         issuer,
         signature: None,
         subject: Some(Subject {
-            name_id: Some(SubjectNameID {
+            name_id: Some(NameId {
                 format: Some("urn:oasis:names:tc:SAML:2.0:nameid-format:unspecified".to_string()),
                 value: name_id.to_owned(),
+                ..Default::default()
             }),
-            subject_confirmations: Some(vec![SubjectConfirmation {
+            subject_confirmations: vec![SubjectConfirmation {
                 method: Some("urn:oasis:names:tc:SAML:2.0:cm:bearer".to_string()),
                 name_id: None,
                 subject_confirmation_data: Some(SubjectConfirmationData {
@@ -88,15 +89,15 @@ fn build_assertion(
                     address: None,
                     content: None,
                 }),
-            }]),
+            }],
         }),
         conditions: Some(build_conditions(audience)),
-        authn_statements: Some(vec![build_authn_statement(
+        authn_statements: vec![build_authn_statement(
             "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
-        )]),
-        attribute_statements: Some(vec![AttributeStatement {
+        )],
+        attribute_statements: vec![AttributeStatement {
             attributes: build_attributes(attributes),
-        }]),
+        }],
     }
 }
 
@@ -120,14 +121,14 @@ fn build_response(
         id: response_id.clone(),
         in_response_to: Some(request_id.to_owned()),
         version: "2.0".to_string(),
-        issue_instant: Utc::now(),
+        issue_instant: UtcDateTime::now(),
         destination: Some(destination.to_string()),
         consent: None,
         issuer: Some(issuer.clone()),
         signature: Some(Signature::template(&response_id, x509_cert)),
         status: Status {
             status_code: StatusCode {
-                value: Some("urn:oasis:names:tc:SAML:2.0:status:Success".to_string()),
+                value: "urn:oasis:names:tc:SAML:2.0:status:Success".to_string(),
             },
             status_message: None,
             status_detail: None,

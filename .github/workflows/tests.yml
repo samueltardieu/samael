@@ -20,8 +20,12 @@ jobs:
           override: true
       - uses: actions-rs/cargo@v1
         with:
-          command: check
-          args: --all-targets
+          command: install
+          args: cargo-hack
+      - uses: actions-rs/cargo@v1
+        with:
+          command: hack
+          args: --each-feature check --all-targets
 
   test:
     name: Test suite
@@ -49,25 +53,30 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           override: true
       - uses: actions-rs/cargo@v1
+        name: Install cargo-hack
+        with:
+          command: install
+          args: cargo-hack
+      - uses: actions-rs/cargo@v1
         name: Test documentation in debug mode
         with:
-          command: test
-          args: --doc
+          command: hack
+          args: --each-feature test --doc
       - uses: actions-rs/cargo@v1
         name: Test documentation in release mode
         with:
-          command: test
-          args: --doc --release
+          command: hack
+          args: --each-feature test --doc --release
       - uses: actions-rs/cargo@v1
         name: Test in debug mode
         with:
-          command: test
-          args: --tests --benches
+          command: hack
+          args: --each-feature test --tests --benches
       - uses: actions-rs/cargo@v1
         name: Test in release mode
         with:
-          command: test
-          args: --release --tests --benches
+          command: hack
+          args: --each-feature test --release --tests --benches
 
   fmt:
     name: Rustfmt
@@ -103,3 +112,7 @@ jobs:
         with:
           command: clippy
           args: --all-targets -- -D warnings
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --all-features --all-targets -- -D warnings

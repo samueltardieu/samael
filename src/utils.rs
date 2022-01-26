@@ -7,9 +7,15 @@ use yaserde::{YaDeserialize, YaSerialize};
 #[derive(Clone, Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub struct UtcDateTime(pub DateTime<Utc>);
 
+impl UtcDateTime {
+    pub fn now() -> Self {
+        Self(Utc::now())
+    }
+}
+
 impl Default for UtcDateTime {
     fn default() -> Self {
-        Self(Utc::now())
+        Self::now()
     }
 }
 
