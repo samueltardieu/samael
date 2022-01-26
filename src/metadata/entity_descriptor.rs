@@ -74,6 +74,19 @@ pub struct AdditionalMetadataLocation {
     value: String,
 }
 
+#[derive(
+    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
+)]
+#[yaserde(
+    root,
+    prefix = "md",
+    namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata"
+)]
+pub struct EntitiesDescriptor {
+    #[yaserde(prefix = "md", rename = "EntityDescriptor")]
+    pub descriptors: Vec<EntityDescriptor>,
+}
+
 #[cfg(test)]
 mod test {
     use super::EntityDescriptor;
