@@ -15,6 +15,8 @@ use super::NameIdPolicy;
     Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
 )]
 #[yaserde(
+    root,
+    prefix = "samlp",
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion",
     namespace = "samlp: urn:oasis:names:tc:SAML:2.0:protocol"

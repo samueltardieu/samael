@@ -23,16 +23,15 @@ impl SPMetadataExtractor {
         Ok(Self(xml.parse()?))
     }
 
-    pub fn issuer(&self) -> Result<String, Error> {
-        self.0.entity_id.clone().ok_or(Error::MissingAudience)
+    pub fn issuer(&self) -> &str {
+        &self.0.entity_id
     }
 
     pub fn acs(&self) -> Result<Acs, Error> {
         let (binding, location) = self
             .0
             .sp_sso_descriptors
-            .as_ref()
-            .and_then(|d| d.first())
+            .first()
             .and_then(|sd| sd.assertion_consumer_services.first())
             .map(|acs| (acs.binding.as_str(), acs.location.as_str()))
             .ok_or(Error::MissingAcsUrl)?;
@@ -50,10 +49,8 @@ impl SPMetadataExtractor {
     pub fn required_attributes(&self) -> Vec<RequiredAttribute> {
         self.0
             .sp_sso_descriptors
-            .as_ref()
-            .and_then(|d| d.first())
-            .and_then(|sd| sd.attribute_consuming_services.as_ref())
-            .and_then(|s| s.first())
+            .first()
+            .and_then(|sd| sd.attribute_consuming_services.first())
             .map(|acs| {
                 acs.request_attributes
                     .iter()
@@ -68,32 +65,34 @@ impl SPMetadataExtractor {
     }
 
     pub fn verification_cert(&self) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
-        let sp_descriptors = self
-            .0
-            .sp_sso_descriptors
-            .as_ref()
-            .ok_or(Error::NoSPSsoDescriptors)?;
+        let sp_descriptors = &self.0.sp_sso_descriptors;
 
+        if sp_descriptors.is_empty() {
+            return Err(Error::NoSPSsoDescriptors.into());
+        }
+
+        // TODO: check the logic of this code
         for sp_descriptor in sp_descriptors {
-            match sp_descriptor.key_descriptors.as_ref() {
-                Some(kd) => {
-                    // grab the first signing key
-                    let data = kd
-                        .iter()
-                        .filter(|d| d.is_signing())
-                        .flat_map(|d| {
-                            d.key_info
-                                .x509_data
-                                .iter()
-                                .flat_map(|d| d.certificates.iter())
-                        })
-                        .next()
-                        .ok_or(Error::NoCertificate)?;
+            let kd = &sp_descriptor.key_descriptors;
 
-                    return Ok(crypto::decode_x509_cert(data.as_str())?);
-                }
-                None => continue,
-            };
+            if kd.is_empty() {
+                continue;
+            }
+
+            // Grab the first signing key
+            let data = kd
+                .iter()
+                .filter(|d| d.is_signing())
+                .flat_map(|d| {
+                    d.key_info
+                        .x509_data
+                        .iter()
+                        .flat_map(|d| d.certificates.iter())
+                })
+                .next()
+                .ok_or(Error::NoCertificate)?;
+
+            return Ok(crypto::decode_x509_cert(data.as_str())?);
         }
 
         Err(Error::NoCertificate.into())

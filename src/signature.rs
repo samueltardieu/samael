@@ -7,11 +7,11 @@ use crate::key_info::{KeyInfo, X509Data};
 pub struct Signature {
     #[yaserde(attribute)]
     pub id: Option<String>,
-    #[yaserde(rename = "signedInfo", prefix = "ds")]
+    #[yaserde(rename = "SignedInfo", prefix = "ds")]
     pub signed_info: SignedInfo,
-    #[yaserde(rename = "signatureValue", prefix = "ds")]
+    #[yaserde(rename = "SignatureValue", prefix = "ds")]
     pub signature_value: SignatureValue,
-    #[yaserde(rename = "keyInfo", prefix = "ds", default)]
+    #[yaserde(rename = "KeyInfo", prefix = "ds", default)]
     pub key_info: Vec<KeyInfo>,
 }
 
