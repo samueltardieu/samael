@@ -152,22 +152,17 @@ impl XmlSecSignatureContext {
     /// [inskey]: struct.XmlSecSignatureContext.html#method.insert_key
     pub fn verify_node(&self, sig_node: &libxml::tree::Node) -> XmlSecResult<bool> {
         self.key_is_set()?;
-        if let Some(ns) = sig_node.get_namespace() {
-            if ns.get_href() != "http://www.w3.org/2000/09/xmldsig#"
-                || sig_node.get_name() != "Signature"
-            {
-                return Err(XmlSecError::NotASignatureNode);
+        match (
+            sig_node.get_namespace().map(|ns| ns.get_href()).as_deref(),
+            sig_node.get_name().as_str(),
+        ) {
+            (Some("http://www.w3.org/2000/09/xmldsig#"), "Signature") => {
+                self.verify_node_raw(sig_node.node_ptr() as *mut bindings::xmlNode)
             }
-        } else {
-            return Err(XmlSecError::NotASignatureNode);
+            _ => Err(XmlSecError::NotASignatureNode),
         }
-
-        let node_ptr = sig_node.node_ptr();
-        self.verify_node_raw(node_ptr as *mut bindings::xmlNode)
     }
-}
 
-impl XmlSecSignatureContext {
     fn key_is_set(&self) -> XmlSecResult<()> {
         unsafe {
             if !(*self.ctx).signKey.is_null() {
