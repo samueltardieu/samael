@@ -35,3 +35,9 @@ libc        = { version = "0.2.112", optional = true }
 lazy_static = { version = "1.4.0", optional = true }
 yaserde = "0.7.1"
 yaserde_derive = "0.7.1"
+
+[dev-dependencies]
+openssl-probe = "0.1.5"
+reqwest = "0.11.9"
+tokio = { version = "1.16.1", features = ["full"] }
+warp = "0.3.2"
