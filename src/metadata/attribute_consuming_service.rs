@@ -2,7 +2,7 @@ use crate::attribute::AttributeValue;
 use crate::metadata::LocalizedName;
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata")]
 pub struct AttributeConsumingService {
     #[yaserde(attribute)]
@@ -17,7 +17,7 @@ pub struct AttributeConsumingService {
     pub request_attributes: Vec<RequestedAttribute>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata")]
 pub struct RequestedAttribute {
     #[yaserde(attribute, rename = "Name")]

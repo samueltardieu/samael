@@ -1,9 +1,7 @@
 use crate::metadata::{LocalizedName, LocalizedUri};
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata")]
 pub struct Organization {
     #[yaserde(rename = "OrganizationName", prefix = "md")]

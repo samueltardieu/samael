@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use crate::key_info::{KeyInfo, X509Data};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct Signature {
     #[yaserde(attribute)]
@@ -77,9 +77,7 @@ impl Signature {
     }
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct SignatureValue {
     #[yaserde(attribute, rename = "ID")]
     pub id: Option<String>,
@@ -87,9 +85,7 @@ pub struct SignatureValue {
     pub base64_content: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct SignedInfo {
     #[yaserde(attribute, rename = "ID")]
@@ -102,17 +98,13 @@ pub struct SignedInfo {
     pub reference: Vec<Reference>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct CanonicalizationMethod {
     #[yaserde(attribute, rename = "Algorithm")]
     pub algorithm: String,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct SignatureMethod {
     #[yaserde(attribute, rename = "Algorithm")]
@@ -121,7 +113,7 @@ pub struct SignatureMethod {
     pub hmac_output_length: Option<u32>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct Transform {
     #[yaserde(attribute, rename = "Algorithm")]
@@ -130,30 +122,26 @@ pub struct Transform {
     pub xpath: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct Transforms {
     #[yaserde(rename = "Transform", prefix = "ds")]
     pub transforms: Vec<Transform>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct DigestMethod {
     #[yaserde(attribute, rename = "Algorithm")]
     pub algorithm: String,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct DigestValue {
     #[yaserde(text)]
     pub base64_content: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct Reference {
     #[yaserde(attribute, rename = "Id")]

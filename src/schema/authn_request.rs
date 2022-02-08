@@ -11,7 +11,7 @@ use crate::crypto;
 
 use super::NameIdPolicy;
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root,
     prefix = "samlp",
@@ -143,9 +143,7 @@ impl AuthnRequest {
     }
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct RequestedAuthnContext {
     #[yaserde(rename = "AuthnContextClassRef", prefix = "saml", default)]
@@ -154,9 +152,7 @@ pub struct RequestedAuthnContext {
     authn_context_decl_ref: Vec<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "samlp: urn:oasis:names:tc:SAML:2.0:protocol")]
 pub struct Scoping {
     #[yaserde(attribute, rename = "ProxyCount")]
@@ -167,9 +163,7 @@ pub struct Scoping {
     requester_id: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "samlp: urn:oasis:names:tc:SAML:2.0:protocol")]
 pub struct IdpList {
     #[yaserde(rename = "IDPEntry", prefix = "samlp")]
@@ -178,9 +172,7 @@ pub struct IdpList {
     get_complete: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct IdpEntry {
     #[yaserde(attribute, rename = "ProviderID")]
     provider_id: String,

@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use crate::{metadata::KeyDescriptor, signature::Signature, utils::UtcDateTime};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata",
     namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion"

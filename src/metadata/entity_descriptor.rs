@@ -8,9 +8,7 @@ use snafu::Snafu;
 use std::str::FromStr;
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root,
     prefix = "md",
@@ -64,9 +62,7 @@ impl FromStr for EntityDescriptor {
     }
 }
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct AdditionalMetadataLocation {
     #[yaserde(attribute)]
     namespace: String,
@@ -74,9 +70,7 @@ pub struct AdditionalMetadataLocation {
     value: String,
 }
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root,
     prefix = "md",

@@ -1,8 +1,6 @@
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(
-    YaDeserialize, YaSerialize, Debug, Default, Clone, Hash, Eq, PartialEq, Ord, PartialOrd,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct NameIdPolicy {
     #[yaserde(attribute, rename = "Format")]
     pub format: Option<String>,

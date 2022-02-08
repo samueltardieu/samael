@@ -1,6 +1,6 @@
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance")]
 pub struct AttributeValue {
     #[yaserde(attribute, rename = "type", prefix = "xsi")]
@@ -9,7 +9,7 @@ pub struct AttributeValue {
     pub value: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct Attribute {
     #[yaserde(attribute, rename = "FriendlyName")]

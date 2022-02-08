@@ -29,7 +29,7 @@ pub const HTTP_POST_BINDING: &str = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-P
 // HTTP_REDIRECT_BINDING is the official URN for the HTTP-Redirect binding (transport)
 pub const HTTP_REDIRECT_BINDING: &str = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect";
 
-#[derive(Clone, Debug, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum NameIdFormat {
     UnspecifiedNameIDFormat,
     TransientNameIDFormat,
@@ -56,9 +56,7 @@ impl NameIdFormat {
     }
 }
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata")]
 pub struct RoleDescriptor {
     #[yaserde(attribute, rename = "ID")]
@@ -81,7 +79,7 @@ pub struct RoleDescriptor {
     pub contact_people: Vec<ContactPerson>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata",
@@ -128,7 +126,7 @@ pub struct IdpSsoDescriptor {
     pub attributes: Vec<Attribute>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata"
@@ -160,7 +158,7 @@ pub struct AuthnAuthorityDescriptors {
     pub name_id_formats: Vec<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata",
@@ -197,7 +195,7 @@ pub struct AttributeAuthorityDescriptors {
     pub attributes: Vec<Attribute>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata"
@@ -229,7 +227,7 @@ pub struct PdpDescriptor {
     pub name_id_formats: Vec<String>,
 }
 
-#[derive(Debug, Clone, YaDeserialize, YaSerialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct LocalizedName {
     #[yaserde(attribute, prefix = "xml")]
     lang: Option<String>,
@@ -237,7 +235,7 @@ pub struct LocalizedName {
     value: String,
 }
 
-#[derive(Debug, Clone, YaDeserialize, YaSerialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct LocalizedUri {
     #[yaserde(attribute, prefix = "xml")]
     lang: Option<String>,
