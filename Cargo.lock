@@ -1158,7 +1158,6 @@ dependencies = [
  "openssl-probe",
  "openssl-sys",
  "pkg-config",
- "rand",
  "reqwest",
  "snafu",
  "tokio",

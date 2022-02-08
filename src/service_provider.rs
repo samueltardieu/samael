@@ -446,9 +446,6 @@ impl ServiceProvider {
             assertion_consumer_service_url: self.acs_url.clone(),
             destination: Some(idp_url.to_string()),
             protocol_binding: Some(HTTP_POST_BINDING.to_string()),
-            id: format!("id-{}", rand::random::<u32>()),
-            issue_instant: UtcDateTime::now(),
-            version: "2.0".to_string(),
             issuer: Some(Issuer {
                 format: Some("urn:oasis:names:tc:SAML:2.0:nameid-format:entity".to_string()),
                 value: Some(self.entity_id.clone()),

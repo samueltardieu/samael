@@ -1,5 +1,4 @@
 use samael::metadata::{ContactPerson, ContactType, EntityDescriptor};
-use samael::schema::{AuthnRequest, Issuer};
 use samael::service_provider::ServiceProviderBuilder;
 use std::collections::HashMap;
 use warp::hyper::Uri;
@@ -40,11 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(move || metadata.clone());
 
     let start_request_route = warp::get().map({
-        let issuer = sp.entity_id.clone();
-        let issuer = Issuer {
-            value: Some(issuer),
-            ..Default::default()
-        };
+        let sp = sp.clone();
         move || {
             let endpoint = idp_metadata
                 .idp_sso_descriptors
@@ -58,11 +53,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         .map(|sso| sso.location.clone())
                 })
                 .unwrap();
-            let authn_request = AuthnRequest {
-                issuer: Some(issuer.clone()),
-                destination: Some(endpoint),
-                ..Default::default()
-            };
+            let authn_request = sp.make_authentication_request(&endpoint).unwrap();
             println!(
                 "request = {}",
                 yaserde::ser::to_string(&authn_request).unwrap()
