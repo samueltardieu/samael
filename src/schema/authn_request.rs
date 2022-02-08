@@ -1,6 +1,6 @@
 use crate::schema::{Conditions, Issuer, Subject};
 use crate::signature::Signature;
-use crate::utils::UtcDateTime;
+use crate::utils::{self, UtcDateTime};
 use chrono::prelude::*;
 use snafu::Snafu;
 use std::str::FromStr;
@@ -11,9 +11,7 @@ use crate::crypto;
 
 use super::NameIdPolicy;
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
 #[yaserde(
     root,
     prefix = "samlp",
@@ -60,6 +58,32 @@ pub struct AuthnRequest {
     pub requested_authn_context: Option<RequestedAuthnContext>,
     #[yaserde(rename = "Scoping", prefix = "samlp")]
     pub scoping: Option<Scoping>,
+}
+
+impl Default for AuthnRequest {
+    fn default() -> Self {
+        Self {
+            id: utils::gen_saml_assertion_id(),
+            version: String::from("2.0"),
+            issue_instant: UtcDateTime::now(),
+            destination: None,
+            consent: None,
+            force_authn: None,
+            is_passive: None,
+            protocol_binding: None,
+            assertion_consumer_service_index: None,
+            assertion_consumer_service_url: None,
+            attribute_consuming_service_index: None,
+            provider_name: None,
+            issuer: None,
+            signature: None,
+            subject: None,
+            name_id_policy: None,
+            conditions: None,
+            requested_authn_context: None,
+            scoping: None,
+        }
+    }
 }
 
 #[derive(Debug, Snafu)]
