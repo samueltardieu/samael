@@ -510,7 +510,7 @@ impl AuthnRequest {
         }
     }
 
-    pub fn redirect(&self, relay_state: &str) -> Result<Option<Url>, Box<dyn std::error::Error>> {
+    pub fn redirect(&self, relay_state: Option<&str>) -> Result<Url, Box<dyn std::error::Error>> {
         let mut compressed_buf = vec![];
         {
             let mut encoder = DeflateEncoder::new(&mut compressed_buf, Compression::default());
@@ -518,15 +518,13 @@ impl AuthnRequest {
         }
         let encoded = base64::encode(&compressed_buf);
 
-        if let Some(destination) = self.destination.as_ref() {
-            let mut url: Url = destination.parse()?;
-            url.query_pairs_mut().append_pair("SAMLRequest", &encoded);
-            if !relay_state.is_empty() {
-                url.query_pairs_mut().append_pair("RelayState", relay_state);
-            }
-            Ok(Some(url))
-        } else {
-            Ok(None)
+        let destination = self.destination.as_deref().unwrap_or("https://replace.me");
+
+        let mut url: Url = destination.parse()?;
+        url.query_pairs_mut().append_pair("SAMLRequest", &encoded);
+        if let Some(relay_state) = relay_state {
+            url.query_pairs_mut().append_pair("RelayState", relay_state);
         }
+        Ok(url)
     }
 }
