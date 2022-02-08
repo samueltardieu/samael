@@ -1,3 +1,4 @@
+use super::sp_extractor::RequiredAttribute;
 use crate::attribute::{Attribute, AttributeValue};
 use crate::schema::{
     Assertion, AttributeStatement, AudienceRestriction, AuthnContext, AuthnContextClassRef,
@@ -5,10 +6,7 @@ use crate::schema::{
     SubjectConfirmation, SubjectConfirmationData,
 };
 use crate::signature::Signature;
-use crate::utils::UtcDateTime;
-
-use super::sp_extractor::RequiredAttribute;
-use crate::crypto;
+use crate::utils::{self, UtcDateTime};
 
 fn build_conditions(audience: &str) -> Conditions {
     Conditions {
@@ -64,7 +62,7 @@ fn build_assertion(
     audience: &str,
     attributes: &[ResponseAttribute],
 ) -> Assertion {
-    let assertion_id = crypto::gen_saml_assertion_id();
+    let assertion_id = utils::gen_saml_assertion_id();
 
     Assertion {
         id: assertion_id,
@@ -115,7 +113,7 @@ fn build_response(
         ..Default::default()
     };
 
-    let response_id = crypto::gen_saml_response_id();
+    let response_id = utils::gen_saml_response_id();
 
     Response {
         id: response_id.clone(),

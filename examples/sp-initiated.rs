@@ -58,10 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         .map(|sso| sso.location.clone())
                 })
                 .unwrap();
-            let id = format!("id{}", uuid::Uuid::new_v4());
             let authn_request = AuthnRequest {
-                id,
-                version: String::from("2.0"),
                 issuer: Some(issuer.clone()),
                 destination: Some(endpoint),
                 ..Default::default()

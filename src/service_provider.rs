@@ -7,8 +7,7 @@ use crate::{
     metadata::{ContactPerson, EncryptionMethod, EntityDescriptor, HTTP_POST_BINDING},
     schema::{AuthnRequest, Issuer},
 };
-use chrono::prelude::*;
-use chrono::Duration;
+use chrono::{Duration, SecondsFormat};
 use flate2::{write::DeflateEncoder, Compression};
 use openssl::pkey::Private;
 use openssl::{rsa, x509};
@@ -158,7 +157,7 @@ impl ServiceProvider {
             Some(chrono::Duration::hours(48))
         };
 
-        let valid_until = valid_duration.map(|d| UtcDateTime(Utc::now() + d));
+        let valid_until = valid_duration.map(|d| &UtcDateTime::now() + d);
 
         let mut key_descriptors = vec![];
         if let Some(cert) = &self.certificate {
@@ -346,7 +345,7 @@ impl ServiceProvider {
                     .collect(),
             });
         }
-        if response.issue_instant.0 + self.max_issue_delay < Utc::now() {
+        if &response.issue_instant + self.max_issue_delay < UtcDateTime::now() {
             return Err(Error::ResponseExpired {
                 time: (response.issue_instant.0 + self.max_issue_delay)
                     .to_rfc3339_opts(SecondsFormat::Secs, true),
@@ -382,7 +381,7 @@ impl ServiceProvider {
         assertion: &Assertion,
         _possible_request_ids: &[AsStr],
     ) -> Result<(), Error> {
-        if assertion.issue_instant.0 + self.max_issue_delay < Utc::now() {
+        if &assertion.issue_instant + self.max_issue_delay < UtcDateTime::now() {
             return Err(Error::AssertionExpired {
                 time: (assertion.issue_instant.0 + self.max_issue_delay)
                     .to_rfc3339_opts(SecondsFormat::Secs, true),
@@ -396,7 +395,7 @@ impl ServiceProvider {
         }
         if let Some(conditions) = &assertion.conditions {
             if let Some(not_before) = &conditions.not_before {
-                if Utc::now() < not_before.0 - self.max_clock_skew {
+                if &UtcDateTime::now() + self.max_clock_skew < *not_before {
                     return Err(Error::AssertionConditionExpiredBefore {
                         time: (not_before.0 - self.max_clock_skew)
                             .to_rfc3339_opts(SecondsFormat::Secs, true),
@@ -404,7 +403,7 @@ impl ServiceProvider {
                 }
             }
             if let Some(not_on_or_after) = &conditions.not_on_or_after {
-                if not_on_or_after.0 + self.max_clock_skew < Utc::now() {
+                if not_on_or_after + self.max_clock_skew < UtcDateTime::now() {
                     return Err(Error::AssertionConditionExpired {
                         time: (not_on_or_after.0 + self.max_clock_skew)
                             .to_rfc3339_opts(SecondsFormat::Secs, true),
@@ -448,7 +447,7 @@ impl ServiceProvider {
             destination: Some(idp_url.to_string()),
             protocol_binding: Some(HTTP_POST_BINDING.to_string()),
             id: format!("id-{}", rand::random::<u32>()),
-            issue_instant: UtcDateTime(Utc::now()),
+            issue_instant: UtcDateTime::now(),
             version: "2.0".to_string(),
             issuer: Some(Issuer {
                 format: Some("urn:oasis:names:tc:SAML:2.0:nameid-format:entity".to_string()),

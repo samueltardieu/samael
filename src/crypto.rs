@@ -496,11 +496,3 @@ pub fn decode_x509_cert(x509_cert: &str) -> Result<Vec<u8>, base64::DecodeError>
 pub fn mime_encode_x509_cert(x509_cert_der: &[u8]) -> String {
     data_encoding::BASE64_MIME.encode(x509_cert_der)
 }
-
-pub fn gen_saml_response_id() -> String {
-    format!("id{}", uuid::Uuid::new_v4())
-}
-
-pub fn gen_saml_assertion_id() -> String {
-    format!("_{}", uuid::Uuid::new_v4())
-}
