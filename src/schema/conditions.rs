@@ -1,7 +1,7 @@
 use crate::utils::UtcDateTime;
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct Conditions {
     #[yaserde(attribute, rename = "NotBefore")]
@@ -16,17 +16,17 @@ pub struct Conditions {
     pub proxy_restriction: Option<ProxyRestriction>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct AudienceRestriction {
     #[yaserde(rename = "Audience", prefix = "saml")]
     pub audience: Vec<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct OneTimeUse {}
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct ProxyRestriction {
     #[yaserde(attribute, rename = "Count")]

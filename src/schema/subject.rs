@@ -21,7 +21,7 @@ impl Default for SubjectType {
     }
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct Subject {
     #[yaserde(rename = "NameID", prefix = "saml")]
@@ -30,7 +30,7 @@ pub struct Subject {
     pub subject_confirmations: Vec<SubjectConfirmation>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct SubjectConfirmation {
     #[yaserde(attribute, rename = "Method")]
@@ -41,7 +41,7 @@ pub struct SubjectConfirmation {
     pub subject_confirmation_data: Option<SubjectConfirmationData>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct SubjectConfirmationData {
     #[yaserde(attribute, rename = "NotBefore")]
     pub not_before: Option<UtcDateTime>,

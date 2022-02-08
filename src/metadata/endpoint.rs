@@ -1,8 +1,6 @@
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-// TODO: check where this is used
-
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct Endpoint {
     #[yaserde(attribute, rename = "Binding")]
     pub binding: String,
@@ -12,9 +10,7 @@ pub struct Endpoint {
     pub response_location: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct IndexedEndpoint {
     #[yaserde(attribute, rename = "Binding")]
     pub binding: String,

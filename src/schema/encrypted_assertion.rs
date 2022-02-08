@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use crate::{key_info::KeyInfo, signature::Transform};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct EncryptedAssertion {
     #[yaserde(rename = "EncryptedData", prefix = "xenc")]
@@ -11,9 +11,7 @@ pub struct EncryptedAssertion {
     encrypted_keys: Vec<EncryptedKey>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "xenc: http://www.w3.org/2001/04/xmlenc#"
@@ -37,7 +35,7 @@ pub struct EncryptedData {
     encryption_properties: Option<EncryptionProperties>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct EncryptionMethod {
     #[yaserde(attribute, rename = "Algorithm")]
@@ -48,7 +46,7 @@ pub struct EncryptionMethod {
     oaep_params: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct EncryptionProperties {
     #[yaserde(attribute, rename = "Id")]
@@ -57,7 +55,7 @@ pub struct EncryptionProperties {
     encryption_properties: Vec<EncryptionProperty>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct EncryptionProperty {
     #[yaserde(attribute, rename = "Target")]
     target: Option<String>,
@@ -67,7 +65,7 @@ pub struct EncryptionProperty {
     value: String,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "xenc: http://www.w3.org/2001/04/xmlenc#"
@@ -97,9 +95,7 @@ pub struct EncryptedKey {
     carried_key_name: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct CipherData {
     #[yaserde(rename = "CipherValue", prefix = "xenc")]
@@ -107,21 +103,22 @@ pub struct CipherData {
     #[yaserde(rename = "CipherReference", prefix = "xenc")]
     cipher_reference: Option<CipherReference>,
 }
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct CipherReference {
     #[yaserde(rename = "Transforms", prefix = "xenc")]
     transforms: Option<Transforms>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "ds: http://www.w3.org/2000/09/xmldsig#")]
 pub struct Transforms {
     #[yaserde(rename = "Transform", prefix = "ds")]
     transforms: Vec<Transform>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "xenc: http://www.w3.org/2001/04/xmlenc#")]
 pub struct ReferenceList {
     #[yaserde(rename = "DataReference", prefix = "xenc", default)]
@@ -130,7 +127,7 @@ pub struct ReferenceList {
     key_reference: Vec<DataOrKeyReference>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct DataOrKeyReference {
     #[yaserde(attribute, rename = "URI")]
     uri: String,

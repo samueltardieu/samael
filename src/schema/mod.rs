@@ -23,7 +23,7 @@ use crate::attribute::Attribute;
 use crate::signature::Signature;
 use crate::utils::UtcDateTime;
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root,
     prefix = "samlp",
@@ -56,14 +56,14 @@ pub struct LogoutRequest {
     pub session_index: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct AttributeStatement {
     #[yaserde(rename = "Attribute", prefix = "saml")]
     pub attributes: Vec<Attribute>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct AuthnStatement {
     #[yaserde(attribute, rename = "AuthnInstant")]
@@ -78,7 +78,7 @@ pub struct AuthnStatement {
     pub authn_context: Option<AuthnContext>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct SubjectLocality {
     #[yaserde(attribute, rename = "Address")]
     pub address: Option<String>,
@@ -86,22 +86,20 @@ pub struct SubjectLocality {
     pub dns_name: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub struct AuthnContext {
     #[yaserde(rename = "AuthnContextClassRef", prefix = "saml")]
     pub value: Option<AuthnContextClassRef>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct AuthnContextClassRef {
     #[yaserde(text)]
     pub value: Option<String>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "samlp: urn:oasis:names:tc:SAML:2.0:protocol")]
 pub struct Status {
     #[yaserde(rename = "StatusCode", prefix = "samlp")]
@@ -112,28 +110,26 @@ pub struct Status {
     pub status_detail: Option<StatusDetail>,
 }
 
-#[derive(
-    Clone, Debug, Default, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct StatusCode {
     #[yaserde(attribute, rename = "Value")]
     pub value: String,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct StatusMessage {
     #[yaserde(text)]
     pub value: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "samlp: urn:oasis:names:tc:SAML:2.0:protocol")]
 pub struct StatusDetail {
     #[yaserde(rename = "Children", prefix = "samlp")]
     pub children: Option<String>,
 }
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root,
     prefix = "samlp",

@@ -4,7 +4,7 @@ use crate::{signature::Signature, utils::UtcDateTime};
 
 use super::{AttributeStatement, AuthnStatement, Conditions, Issuer, Subject};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion",

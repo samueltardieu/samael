@@ -20,9 +20,7 @@ impl ContactType {
     }
 }
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata")]
 pub struct ContactPerson {
     #[yaserde(attribute, rename = "contactType")]

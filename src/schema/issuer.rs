@@ -1,8 +1,6 @@
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 pub struct Issuer {
     #[yaserde(attribute, rename = "NameQualifier")]
     pub name_qualifier: Option<String>,

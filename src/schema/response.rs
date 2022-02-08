@@ -5,7 +5,7 @@ use snafu::Snafu;
 use std::str::FromStr;
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(Clone, Debug, YaDeserialize, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     root
     prefix = "samlp",

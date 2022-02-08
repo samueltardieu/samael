@@ -8,9 +8,7 @@ use crate::{
 };
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(
-    Clone, Debug, YaDeserialize, Default, Hash, Eq, PartialEq, Ord, PartialOrd, YaSerialize,
-)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
 #[yaserde(
     namespace = "ds: http://www.w3.org/2000/09/xmldsig#",
     namespace = "md: urn:oasis:names:tc:SAML:2.0:metadata"
