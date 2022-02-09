@@ -14,13 +14,13 @@ use std::convert::TryInto;
 use std::ffi::CString;
 
 #[cfg(feature = "xmlsec")]
-const XMLNS_XML_DSIG: &str = "http://www.w3.org/2000/09/xmldsig#";
+pub const XMLNS_XML_DSIG: &str = "http://www.w3.org/2000/09/xmldsig#";
 #[cfg(feature = "xmlsec")]
-const XMLNS_SIGVER: &str = "urn:urn-5:08Z8lPlI4JVjifINTfCtfelirUo";
+pub const XMLNS_SIGVER: &str = "urn:urn-5:08Z8lPlI4JVjifINTfCtfelirUo";
 #[cfg(feature = "xmlsec")]
-const ATTRIB_SIGVER: &str = "sv";
+pub const ATTRIB_SIGVER: &str = "sv";
 #[cfg(feature = "xmlsec")]
-const VALUE_SIGVER: &str = "verified";
+pub const VALUE_SIGVER: &str = "verified";
 
 #[derive(Debug, Snafu)]
 pub enum Error {
