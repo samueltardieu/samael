@@ -46,6 +46,8 @@ impl XmlSecContext {
         init_crypto_app()?;
         init_crypto()?;
 
+        enable_tty_error_output(false);
+
         Ok(Self {})
     }
 }
@@ -106,4 +108,13 @@ fn cleanup_crypto_app() {
 /// Shutdown xmlsec library
 fn cleanup_xmlsec() {
     unsafe { bindings::xmlSecShutdown() };
+}
+
+/// When using the default error callback of the xmlsec library, enable the error output on the
+/// TTY. By defaut, output is disabled when we start using xmlsec, it can later be reenabled
+/// using this function.
+pub fn enable_tty_error_output(enabled: bool) {
+    unsafe {
+        bindings::xmlSecErrorsDefaultCallbackEnableOutput(enabled as std::os::raw::c_int);
+    }
 }

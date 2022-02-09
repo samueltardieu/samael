@@ -1,6 +1,8 @@
 use snafu::Snafu;
 
 #[cfg(feature = "xmlsec")]
+pub use crate::xmlsec::enable_tty_error_output as enable_xmlsec_tty_error_output;
+#[cfg(feature = "xmlsec")]
 use crate::xmlsec::{self, XmlSecKey, XmlSecKeyFormat, XmlSecSignatureContext};
 #[cfg(feature = "xmlsec")]
 use libxml::parser::Parser as XmlParser;
