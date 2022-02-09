@@ -26,4 +26,4 @@ pub use self::error::XmlSecResult;
 pub use self::keys::XmlSecKey;
 pub use self::keys::XmlSecKeyFormat;
 pub use self::xmldsig::XmlSecSignatureContext;
-pub use self::xmlsec::XmlSecContext;
+pub use self::xmlsec::{enable_tty_error_output, XmlSecContext};

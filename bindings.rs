@@ -18,6 +18,7 @@ fn main() {
         println!("cargo:rustc-link-lib=xml2"); // -lxml2
         println!("cargo:rustc-link-lib=ssl"); // -lssl
         println!("cargo:rustc-link-lib=crypto"); // -lcrypto
+        println!("cargo:rerun-if-changed=bindings.h");
 
         let path_out = PathBuf::from(env::var("OUT_DIR").unwrap());
         let path_bindings = path_out.join(BINDINGS);
