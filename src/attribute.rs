@@ -21,3 +21,13 @@ pub struct Attribute {
     #[yaserde(rename = "AttributeValue", prefix = "saml", default)]
     pub values: Vec<AttributeValue>,
 }
+
+pub static NAME_FORMAT_URI: &str = "urn:oasis:names:tc:SAML:2.0:attrname-format:uri";
+pub static SUBJECT_ID_URI: &str = "urn:oasis:names:tc:SAML:attribute:subject-id";
+pub static UID_URI: &str = "urn:oid:0.9.2342.19200300.100.1.1";
+pub static TELEPHONE_NUMBER_URI: &str = "urn:oid:2.5.4.20";
+pub static MAIL_URI: &str = "urn:oid:0.9.2342.19200300.100.1.3";
+pub static SURNAME_URI: &str = "urn:oid:2.5.4.4";
+pub static DISPLAY_NAME_URI: &str = "urn:oid:2.16.840.1.113730.3.1.241";
+pub static GIVEN_NAME_URI: &str = "urn:oid:2.5.4.42";
+pub static EDU_PERSON_ENTITLEMENT_URI: &str = "urn:oid:1.3.6.1.4.1.5923.1.1.1.7";
