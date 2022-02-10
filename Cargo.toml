@@ -36,6 +36,8 @@ yaserde = "0.7.1"
 yaserde_derive = "0.7.1"
 
 [dev-dependencies]
+cookie = { version = "0.16.0", features = ["private", "key-expansion"] }
+lazy_static = "1.4.0"
 openssl-probe = "0.1.5"
 reqwest = "0.11.9"
 tokio = { version = "1.16.1", features = ["full"] }

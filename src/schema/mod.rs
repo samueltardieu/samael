@@ -1,4 +1,5 @@
 mod assertion;
+pub mod attribute_statement;
 pub mod authn_request;
 mod conditions;
 pub mod encrypted_assertion;
@@ -9,6 +10,7 @@ mod response;
 mod subject;
 
 pub use assertion::Assertion;
+pub use attribute_statement::AttributeStatement;
 pub use authn_request::AuthnRequest;
 pub use conditions::*;
 pub use encrypted_assertion::EncryptedAssertion;
@@ -19,7 +21,6 @@ pub use response::Response;
 pub use subject::*;
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-use crate::attribute::Attribute;
 use crate::signature::Signature;
 use crate::utils::UtcDateTime;
 
@@ -54,13 +55,6 @@ pub struct LogoutRequest {
     pub name_id: Option<NameId>,
     #[yaserde(rename = "SessionIndex", prefix = "samlp")]
     pub session_index: Option<String>,
-}
-
-#[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]
-#[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
-pub struct AttributeStatement {
-    #[yaserde(rename = "Attribute", prefix = "saml")]
-    pub attributes: Vec<Attribute>,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]

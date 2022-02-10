@@ -484,14 +484,25 @@ fn parse_certificates(key_descriptor: &KeyDescriptor) -> Result<Vec<x509::X509>,
 }
 
 impl AuthnRequest {
-    pub fn post(&self, relay_state: &str) -> Result<Option<String>, Box<dyn std::error::Error>> {
+    pub const DESTINATION_PLACEHOLDER: &'static str = "https://replace.me";
+
+    pub fn post(&self, relay_state: Option<&str>) -> Result<String, Box<dyn std::error::Error>> {
         let encoded = base64::encode(self.as_xml()?.as_bytes());
-        if let Some(dest) = &self.destination {
-            Ok(Some(format!(
-                r#"
+        let destination = self
+            .destination
+            .as_deref()
+            .unwrap_or(Self::DESTINATION_PLACEHOLDER);
+        let rs_field = match relay_state {
+            Some(relay_state) => {
+                format!(r#"<input type="hidden" name="RelayState" value="{relay_state}" />"#)
+            }
+            None => String::from(""),
+        };
+        Ok(format!(
+            r#"
             <form method="post" action="{}" id="SAMLRequestForm">
                 <input type="hidden" name="SAMLRequest" value="{}" />
-                <input type="hidden" name="RelayState" value="{}" />
+                {rs_field}
                 <input id="SAMLSubmitButton" type="submit" value="Submit" />
             </form>
             <script>
@@ -499,11 +510,8 @@ impl AuthnRequest {
                 document.getElementById('SAMLRequestForm').submit();
             </script>
         "#,
-                dest, encoded, relay_state
-            )))
-        } else {
-            Ok(None)
-        }
+            destination, encoded,
+        ))
     }
 
     pub fn redirect(&self, relay_state: Option<&str>) -> Result<Url, Box<dyn std::error::Error>> {
@@ -514,7 +522,10 @@ impl AuthnRequest {
         }
         let encoded = base64::encode(&compressed_buf);
 
-        let destination = self.destination.as_deref().unwrap_or("https://replace.me");
+        let destination = self
+            .destination
+            .as_deref()
+            .unwrap_or(Self::DESTINATION_PLACEHOLDER);
 
         let mut url: Url = destination.parse()?;
         url.query_pairs_mut().append_pair("SAMLRequest", &encoded);
