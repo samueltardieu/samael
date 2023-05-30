@@ -1,3 +1,4 @@
+use base64::{engine::general_purpose, Engine as _};
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use crate::key_info::{KeyInfo, X509Data};
@@ -70,7 +71,7 @@ impl Signature {
         self.key_info.push(KeyInfo {
             id: None,
             x509_data: Some(X509Data {
-                certificates: vec![base64::encode(public_cert_der)],
+                certificates: vec![general_purpose::STANDARD.encode(public_cert_der)],
             }),
         });
         self

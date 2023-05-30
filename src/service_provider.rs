@@ -7,6 +7,7 @@ use crate::{
     metadata::{ContactPerson, EncryptionMethod, EntityDescriptor, HTTP_POST_BINDING},
     schema::{AuthnRequest, Issuer},
 };
+use base64::{engine::general_purpose, Engine as _};
 use chrono::{Duration, SecondsFormat};
 use flate2::{write::DeflateEncoder, Compression};
 use openssl::pkey::Private;
@@ -173,7 +174,7 @@ impl ServiceProvider {
                 key_info: KeyInfo {
                     id: None,
                     x509_data: Some(X509Data {
-                        certificates: vec![base64::encode(&cert_bytes)],
+                        certificates: vec![general_purpose::STANDARD.encode(&cert_bytes)],
                     }),
                 },
             });
@@ -182,7 +183,7 @@ impl ServiceProvider {
                 key_info: KeyInfo {
                     id: None,
                     x509_data: Some(X509Data {
-                        certificates: vec![base64::encode(&cert_bytes)],
+                        certificates: vec![general_purpose::STANDARD.encode(&cert_bytes)],
                     }),
                 },
                 encryption_methods: vec![
@@ -306,7 +307,7 @@ impl ServiceProvider {
         encoded_resp: &str,
         possible_request_ids: &[AsStr],
     ) -> Result<Assertion, Box<dyn std::error::Error>> {
-        let bytes = base64::decode(encoded_resp)?;
+        let bytes = general_purpose::STANDARD.decode(encoded_resp)?;
         let decoded = std::str::from_utf8(&bytes)?;
         let assertion = self.parse_xml_response(decoded, possible_request_ids)?;
         Ok(assertion)
@@ -487,7 +488,7 @@ impl AuthnRequest {
     pub const DESTINATION_PLACEHOLDER: &'static str = "https://replace.me";
 
     pub fn post(&self, relay_state: Option<&str>) -> Result<String, Box<dyn std::error::Error>> {
-        let encoded = base64::encode(self.as_xml()?.as_bytes());
+        let encoded = general_purpose::STANDARD.encode(self.as_xml()?.as_bytes());
         let destination = self
             .destination
             .as_deref()
@@ -520,7 +521,7 @@ impl AuthnRequest {
             let mut encoder = DeflateEncoder::new(&mut compressed_buf, Compression::default());
             encoder.write_all(self.as_xml()?.as_bytes())?;
         }
-        let encoded = base64::encode(&compressed_buf);
+        let encoded = general_purpose::STANDARD.encode(&compressed_buf);
 
         let destination = self
             .destination
