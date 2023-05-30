@@ -4,21 +4,16 @@ use crate::utils::UtcDateTime;
 
 use super::NameId;
 
-#[derive(YaDeserialize, YaSerialize)]
+#[derive(Default, YaDeserialize, YaSerialize)]
 #[yaserde(namespace = "saml: urn:oasis:names:tc:SAML:2.0:assertion")]
 pub enum SubjectType {
+    #[default]
     #[yaserde(rename = "BaseID", prefix = "saml")]
     BaseId,
     #[yaserde(rename = "NameID", prefix = "saml")]
     NameId(String),
     #[yaserde(rename = "EncryptedID", prefix = "saml")]
     EncryptedId,
-}
-
-impl Default for SubjectType {
-    fn default() -> Self {
-        SubjectType::BaseId
-    }
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, YaDeserialize, YaSerialize)]

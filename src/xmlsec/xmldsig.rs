@@ -19,7 +19,7 @@ pub struct XmlSecSignatureContext {
 impl XmlSecSignatureContext {
     /// Builds a context, ensuring xmlsec is initialized.
     pub fn new() -> XmlSecResult<Self> {
-        let _init = super::xmlsec::guarantee_xmlsec_init()?;
+        super::xmlsec::guarantee_xmlsec_init()?;
 
         let ctx = unsafe { bindings::xmlSecDSigCtxCreate(null_mut()) };
 
