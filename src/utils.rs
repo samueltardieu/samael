@@ -1,7 +1,6 @@
 use chrono::{DateTime, Duration, SecondsFormat, Utc};
 use std::io::{Read, Write};
 use std::ops::Add;
-use yaserde::xml;
 use yaserde::{YaDeserialize, YaSerialize};
 
 static mut NOW: Option<DateTime<Utc>> = None;
