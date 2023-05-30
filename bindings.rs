@@ -35,7 +35,6 @@ fn main() {
             .allowlist_type("xmlSec.*")
             .allowlist_var("xmlSec.*")
             .layout_tests(true)
-            .rustfmt_bindings(true)
             .generate_comments(true);
 
         let bindings = bindbuild.generate().expect("Unable to generate bindings");
