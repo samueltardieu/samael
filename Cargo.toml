@@ -19,7 +19,7 @@ pkg-config = "0.3.27"
 bindgen    = "0.65.1"
 
 [dependencies]
-openssl = "0.10.53"
+openssl = "0.10.55"
 openssl-sys = "0.9.88"
 url = "2.3.1"
 chrono = { version = "0.4.25", features = ["serde"] }
